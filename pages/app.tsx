@@ -1,17 +1,13 @@
 import { NextPage } from "next";
 
 import { signIn, signOut, useSession } from "next-auth/client";
-import { useEffect } from "react";
 
-const IndexPage: NextPage = () => {
+const Home: NextPage = () => {
   const [session, loading] = useSession();
-
-  useEffect(() => {
-    console.log('session',session)
-  },[])
 
   return (
     <>
+     <h1>Pagina Home</h1>
       {!session && (
         <>
           Not signed in <br />
@@ -35,4 +31,4 @@ const IndexPage: NextPage = () => {
   );
 };
 
-export default IndexPage;
+export default Home;
