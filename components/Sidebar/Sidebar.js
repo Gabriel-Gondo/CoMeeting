@@ -63,9 +63,9 @@ export default function Sidebar() {
             {/* Navigation */}
             <ul className="md:flex-col md:min-w-full flex flex-col list-none">
               {
-                adminPages.map((page) => {
+                adminPages.map((page, index)  => {
                   return (
-                    <li className="items-center" id={page.path}>
+                    <li className="items-center" key={index}>
                       <Link href={page.path}>
                         <a className={"text-xs uppercase py-3 font-bold block " + (router.pathname.indexOf(page.path) !== -1 ? "text-lightBlue-500 hover:text-lightBlue-600" : "text-blueGray-700 hover:text-blueGray-500")}>
                           <i className={page.icon + " mr-2 text-sm " + (router.pathname.indexOf(page.path) !== -1 ? "opacity-75" : "text-blueGray-300")}></i>{" "}

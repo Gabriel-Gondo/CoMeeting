@@ -1,5 +1,6 @@
 import React from "react";
-
+import { GetServerSideProps } from 'next'
+import { parseCookies } from 'nookies'
 // components
 
 import CardLineChart from "components/Cards/CardLineChart.js";
@@ -32,6 +33,31 @@ export default function Dashboard() {
       </div>
     </Admin>
   );
+}
+
+
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+
+  // const apiClient = getAPIClient(ctx);
+  console.log('ctx',ctx)
+  const { ['nextauth.token']: token } = parseCookies(ctx)
+
+  if (!token) {
+    console.log('token',token)
+    return {
+      redirect: {
+        destination: '/auth/login',
+        permanent: false,
+      }
+    }
+  }
+
+  // await apiClient.get('/users')
+
+  return {
+    props: {}
+  }
 }
 
 

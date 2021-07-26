@@ -17,6 +17,8 @@ const delay = (amount = 750) => new Promise(resolve => setTimeout(resolve, amoun
 
 export async function signInRequest(data: SignInRequestData) {
   const response = await api.post('/auth/login',data)
+
+  console.log('response',response)
   
   return {token: response?.data?.access_token, user: {name: 'string',email: 'string',avatar_url: 'string'}}
 }

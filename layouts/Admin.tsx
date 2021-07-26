@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { parseCookies } from 'nookies'
 import { GetServerSideProps } from 'next'
 // components
@@ -7,8 +7,11 @@ import AdminNavbar from "components/Navbars/AdminNavbar.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
 import HeaderStats from "components/Headers/HeaderStats.js";
 import FooterAdmin from "components/Footers/FooterAdmin.js";
+import { useEffect } from "react";
+import { AuthContext } from "contexts/AuthContext";
 
 export default function Admin({ title,children }) {
+
   return (
     <>
       <Sidebar />
@@ -25,22 +28,6 @@ export default function Admin({ title,children }) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const apiClient = getAPIClient(ctx);
-  const { ['nextauth.token']: token } = parseCookies(ctx)
 
-  if (!token) {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false,
-      }
-    }
-  }
 
-  await apiClient.get('/users')
 
-  return {
-    props: {}
-  }
-}

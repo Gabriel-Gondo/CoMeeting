@@ -2,8 +2,8 @@ import { createContext, useEffect, useState } from "react";
 import { setCookie, parseCookies } from 'nookies'
 import Router from 'next/router'
 
-import { recoverUserInformation, signInRequest } from "../../services/auth";
-import { api } from "../../services/api";
+import { recoverUserInformation, signInRequest } from "../services/auth";
+import { api } from "../services/api";
 
 type User = {
   name: string;
@@ -34,11 +34,11 @@ export const AuthContext = createContext({} as AuthContextType)
 export function AuthProvider({ children }) {
   const [user, setUser] = useState<User | null>(null)
 
-  const isAuthenticated = !!user;
+  const isAuthenticated = true;
 
   useEffect(() => {
     const { 'nextauth.token': token } = parseCookies()
-
+    
     if (token) {
       recoverUserInformation().then(response => {
         setUser(response.user)
@@ -52,6 +52,14 @@ export function AuthProvider({ children }) {
       password,
     })
 
+    console.log('token',token)
+    console.log('user',user)
+
+    console.log('****************************')
+    console.log('****************************')
+    console.log('setando cookies',token)
+    console.log('****************************')
+    console.log('****************************')
     setCookie(undefined, 'nextauth.token', token, {
       maxAge: 60 * 60 * 1, // 1 hour
     })
