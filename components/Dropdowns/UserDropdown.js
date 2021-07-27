@@ -1,8 +1,11 @@
 import React from "react";
 import { createPopper } from "@popperjs/core";
+import { AuthContext } from 'contexts/AuthContext';
+import { useContext } from 'react';
 
 const UserDropdown = () => {
   // dropdown props
+  const { logout } = useContext(AuthContext)
   const [dropdownPopoverShow, setDropdownPopoverShow] = React.useState(false);
   const btnDropdownRef = React.createRef();
   const popoverDropdownRef = React.createRef();
@@ -15,6 +18,9 @@ const UserDropdown = () => {
   const closeDropdownPopover = () => {
     setDropdownPopoverShow(false);
   };
+
+
+
   return (
     <>
       <a
@@ -28,57 +34,34 @@ const UserDropdown = () => {
       >
         <div className="items-center flex">
           <span className="w-12 h-12 text-sm text-white bg-blueGray-200 inline-flex items-center justify-center rounded-full">
-            <img
+            {/* <img
               alt="..."
               className="w-full rounded-full align-middle border-none shadow-lg"
               src="/img/team-1-800x800.jpg"
-            />
+            /> */}
           </span>
         </div>
       </a>
-      <div
-        ref={popoverDropdownRef}
-        className={
-          (dropdownPopoverShow ? "block " : "hidden ") +
-          "bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg min-w-48"
-        }
-      >
-        <a
-          href="#pablo"
-          className={
-            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-          }
+      <div ref={popoverDropdownRef} className={(dropdownPopoverShow ? "block " : "hidden ") + "bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg min-w-48"}>
+        <a  
+          href="#" 
+          className={"text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"} 
           onClick={(e) => e.preventDefault()}
         >
-          Action
+          Meu Perfil
         </a>
-        <a
-          href="#pablo"
-          className={
-            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-          }
-          onClick={(e) => e.preventDefault()}
-        >
-          Another action
-        </a>
-        <a
-          href="#pablo"
-          className={
-            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-          }
-          onClick={(e) => e.preventDefault()}
-        >
-          Something else here
-        </a>
+
+
         <div className="h-0 my-2 border border-solid border-blueGray-100" />
-        <a
-          href="#pablo"
-          className={
-            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-          }
-          onClick={(e) => e.preventDefault()}
+        <a  
+          href="#" 
+          className={"text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"} 
+          onClick={(e) => {
+            e.preventDefault();
+            logout();
+          }}
         >
-          Seprated link
+          Sair
         </a>
       </div>
     </>

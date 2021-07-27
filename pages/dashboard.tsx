@@ -40,11 +40,10 @@ export default function Dashboard() {
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   // const apiClient = getAPIClient(ctx);
-  console.log('ctx',ctx)
+
   const { ['nextauth.token']: token } = parseCookies(ctx)
 
   if (!token) {
-    console.log('token',token)
     return {
       redirect: {
         destination: '/auth/login',

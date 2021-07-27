@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import { setCookie, parseCookies } from 'nookies'
+import { setCookie, parseCookies, destroyCookie } from 'nookies'
 import Router from 'next/router'
 
 import { recoverUserInformation, signInRequest } from "../services/auth";
@@ -17,9 +17,10 @@ type SignInData = {
 }
 
 type AuthContextType = {
-  isAuthenticated: boolean;
+  //isAuthenticated: boolean;
   user: User;
-  signIn: (data: SignInData) => Promise<void>
+  signIn: (data: SignInData) => Promise<void>;
+  logout: () => Promise<void>
 }
 
 type SignInResponse = {
@@ -34,7 +35,7 @@ export const AuthContext = createContext({} as AuthContextType)
 export function AuthProvider({ children }) {
   const [user, setUser] = useState<User | null>(null)
 
-  const isAuthenticated = true;
+  //const isAuthenticated = true;
 
   useEffect(() => {
     const { 'nextauth.token': token } = parseCookies()
@@ -52,15 +53,9 @@ export function AuthProvider({ children }) {
       password,
     })
 
-    console.log('token',token)
-    console.log('user',user)
 
-    console.log('****************************')
-    console.log('****************************')
-    console.log('setando cookies',token)
-    console.log('****************************')
-    console.log('****************************')
     setCookie(undefined, 'nextauth.token', token, {
+      path: '/',
       maxAge: 60 * 60 * 1, // 1 hour
     })
 
@@ -70,9 +65,19 @@ export function AuthProvider({ children }) {
 
     Router.push('/dashboard');
   }
+  async function logout() {
+    console.log('teste')
+    destroyCookie({}, 'nextauth.token', {
+      path: '/', // THE KEY IS TO SET THE SAME PATH
+    })
+    api.defaults.headers['Authorization'] = null;
+    setUser(null)
+
+    Router.push('/auth/login');
+  }
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, signIn }}>
+    <AuthContext.Provider value={{ user, signIn, logout }}>
       {children}
     </AuthContext.Provider>
   )
