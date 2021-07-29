@@ -20,6 +20,9 @@ import { GetServerSideProps } from 'next'
 import { parseCookies } from 'nookies'
 import { useEffect } from 'react';
 import { useSnackbar } from 'notistack';
+import { withStyles } from '@material-ui/core/styles';
+import Router from 'next/router'
+
 
 function Copyright() {
   return (
@@ -63,6 +66,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: '#11cbef'
   },
 }));
+
+
+
 
 export default function SignInSide() {
   const classes = useStyles();
@@ -144,9 +150,18 @@ export default function SignInSide() {
               fullWidth
               variant="contained"
               color="primary"
-              className={classes.submit}
             >
               Logar
+            </Button>
+
+            <Button
+              fullWidth
+              variant="contained"
+              color="secondary"
+              style={{marginTop: '10px'}}
+              onClick={() => Router.push('/auth/cadastro') }
+            >
+              Cadastrar-se
             </Button>
             {/* <Grid container>
               <Grid item xs>
