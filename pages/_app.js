@@ -2,7 +2,7 @@ import React from "react";
 
 import App from "next/app";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import 'tailwindcss/tailwind.css'
+import "../styles/tailwind.css";
 import { AuthProvider } from 'contexts/AuthContext'
 import { SnackbarProvider } from 'notistack';
 import { createTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
