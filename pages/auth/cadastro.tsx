@@ -11,10 +11,16 @@ import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import Lottie from "react-lottie";
 import background from "public/lottie/background.json";
+import { useForm } from 'react-hook-form';
+import { useSnackbar } from 'notistack';
+import { api } from 'services/api' 
 // layout for page
 import User from "layouts/User";
+import { sha512 } from 'js-sha512'
 
 export default function Dashboard() {
+  const { register, handleSubmit } = useForm();
+  const { enqueueSnackbar } = useSnackbar();
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => {
@@ -24,8 +30,22 @@ export default function Dashboard() {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+
+  async function save(data) {
+    try {
+      console.log(data)
+      const dados = { ...data, password: sha512(data.password)}
+      await api.post('/users',dados)
+    } catch (error) {
+      console.log(error)
+      enqueueSnackbar('Problema ao salvar',{variant: 'error',});
+    }
+  }
+
+
   return (
     <User title="Cadastro">
+       <form  noValidate onSubmit={handleSubmit(save)}>
       <div className="flex flex-wrap">
         <div className="w-full  px-4">
           <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg mt-16">
@@ -36,70 +56,76 @@ export default function Dashboard() {
                     <Grid container spacing={3}>
                       <Grid item sm={12}>
                         <Grid container>
+                          
                           <Grid item sm={4}>
-                            <Grid container spacing={3}>
-                              <Grid item sm={12}>
-                                <Typography variant="h6">Seus Dados</Typography>
+                           
+                              <Grid container spacing={3}>
+                                  <Grid item sm={12}>
+                                    <Typography variant="h6">Seus Dados</Typography>
+                                  </Grid>
+                                  <Grid item sm={12}>
+                                    <TextField
+                                      {...register('name')}
+                                      variant="outlined"
+                                      margin="normal"
+                                      required
+                                      fullWidth
+                                      id="name"
+                                      label="Nome"
+                                      name="name"
+                                      autoFocus
+                                    />
+                                  </Grid>
+                                  <Grid item sm={12}>
+                                    <TextField
+                                      {...register('email')}
+                                      variant="outlined"
+                                      margin="normal"
+                                      required
+                                      fullWidth
+                                      id="email"
+                                      label="Email"
+                                      name="email"
+                                      autoComplete="email"
+                                    />
+                                  </Grid>
+                                  <Grid item sm={12}>
+                                  <TextField
+                                    {...register('password')}
+                                    variant="outlined"
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    id="password"
+                                    label="Senha"
+                                    name="password"
+                                    autoComplete="email"
+                                    type={showPassword ? "text" : "password"}
+                                    InputProps={{
+                                      endAdornment: (
+                                        <InputAdornment position="end">
+                                          <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleClickShowPassword}
+                                            onMouseDown={handleMouseDownPassword}
+                                          >
+                                            {showPassword ? (
+                                              <Visibility />
+                                            ) : (
+                                              <VisibilityOff />
+                                            )}
+                                          </IconButton>
+                                        </InputAdornment>
+                                      ),
+                                    }}
+                                  />
+                                </Grid>
+                                
                               </Grid>
-                              <Grid item sm={12}>
-                                <TextField
-                                  variant="outlined"
-                                  margin="normal"
-                                  required
-                                  fullWidth
-                                  id="nome"
-                                  label="Nome"
-                                  name="nome"
-                                  autoFocus
-                                />
-                              </Grid>
-                              <Grid item sm={12}>
-                                <TextField
-                                  variant="outlined"
-                                  margin="normal"
-                                  required
-                                  fullWidth
-                                  id="email"
-                                  label="Email"
-                                  name="email"
-                                  autoComplete="email"
-                                />
-                              </Grid>
-                              <Grid item sm={12}>
-                                <TextField
-                                  variant="outlined"
-                                  margin="normal"
-                                  required
-                                  fullWidth
-                                  id="senha"
-                                  label="Senha"
-                                  name="senha"
-                                  autoComplete="email"
-                                  type={showPassword ? "text" : "password"}
-                                  InputProps={{
-                                    endAdornment: (
-                                      <InputAdornment position="end">
-                                        <IconButton
-                                          aria-label="toggle password visibility"
-                                          onClick={handleClickShowPassword}
-                                          onMouseDown={handleMouseDownPassword}
-                                        >
-                                          {showPassword ? (
-                                            <Visibility />
-                                          ) : (
-                                            <VisibilityOff />
-                                          )}
-                                        </IconButton>
-                                      </InputAdornment>
-                                    ),
-                                  }}
-                                />
-                              </Grid>
-                            </Grid>
+                            
                           </Grid>
                           <Grid item sm={8} style={{padding: '20px'}}>
                             <div id="container" style={{position: 'relative'}}>
-                              <div style={{ width: '100%',height:' 100%',position: 'absolute',top: '0',left: '0'}}>a</div>
                               <div style={{ width: '100%',height:' 100%',zIndex: 10}}>
                                 <Lottie
                                   options={{
@@ -160,6 +186,7 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
+      </form>
     </User>
   );
 }
