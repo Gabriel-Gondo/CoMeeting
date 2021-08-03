@@ -22,7 +22,7 @@ import { useEffect } from 'react';
 import { useSnackbar } from 'notistack';
 import { withStyles } from '@material-ui/core/styles';
 import Router from 'next/router'
-
+import { sha512 } from 'js-sha512'
 
 function Copyright() {
   return (
@@ -79,7 +79,8 @@ export default function SignInSide() {
 
   async function handleSignIn(data) {
     try {
-      await signIn(data)
+      const dados = { ...data, password: sha512(data.password)}
+      await signIn(dados)
     } catch (error) {
       enqueueSnackbar('Login invalido',{variant: 'error',});
     }
