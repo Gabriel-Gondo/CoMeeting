@@ -15,12 +15,31 @@ import { useForm } from 'react-hook-form';
 import { useSnackbar } from 'notistack';
 import { api } from 'services/api' 
 import Router from 'next/router'
+import { makeStyles } from '@material-ui/core/styles';
 
 // layout for page
 import User from "layouts/User";
 import { sha512 } from 'js-sha512'
 
+const useStyles = makeStyles((theme) => ({
+  realizeSeuCadastro: {
+    color: '#2265FF',
+    fontWeight: 900,
+    fontSize: '32px',
+    textTransform: 'uppercase',
+    fontStyle: 'italic',
+    letterSpacing: '0.05em',
+  },
+  preenchaSeusDados: {
+    fontWeight: 900,
+    fontSize: '14px',
+    textTransform: 'uppercase'
+  }
+
+}));
+
 export default function Dashboard() {
+  const styles = useStyles();
   const { register, handleSubmit } = useForm();
   const { enqueueSnackbar } = useSnackbar();
   const [showPassword, setShowPassword] = useState(false);
@@ -33,6 +52,13 @@ export default function Dashboard() {
     event.preventDefault();
   };
 
+  async function validaSenha(data){
+    if(data.password === data.confirmPassword){
+      save(data);
+    } else {
+      enqueueSnackbar('As senhas não coincidem!',{variant: 'error',});
+    }
+  }
   async function save(data) {
     try {
       console.log(data)
@@ -48,7 +74,7 @@ export default function Dashboard() {
 
   return (
     <User title="Cadastro">
-       <form  noValidate onSubmit={handleSubmit(save)}>
+      <form  noValidate onSubmit={handleSubmit(validaSenha)}>
       <div className="flex flex-wrap">
         <div className="w-full  px-4">
           <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg mt-16">
@@ -59,73 +85,8 @@ export default function Dashboard() {
                     <Grid container spacing={3}>
                       <Grid item sm={12}>
                         <Grid container>
-                          
-                          <Grid item sm={4}>
-                           
-                              <Grid container spacing={3}>
-                                  <Grid item sm={12}>
-                                    <Typography variant="h6">Seus Dados</Typography>
-                                  </Grid>
-                                  <Grid item sm={12}>
-                                    <TextField
-                                      {...register('name')}
-                                      variant="outlined"
-                                      margin="normal"
-                                      required
-                                      fullWidth
-                                      id="name"
-                                      label="Nome"
-                                      name="name"
-                                      autoFocus
-                                    />
-                                  </Grid>
-                                  <Grid item sm={12}>
-                                    <TextField
-                                      {...register('email')}
-                                      variant="outlined"
-                                      margin="normal"
-                                      required
-                                      fullWidth
-                                      id="email"
-                                      label="Email"
-                                      name="email"
-                                      autoComplete="email"
-                                    />
-                                  </Grid>
-                                  <Grid item sm={12}>
-                                  <TextField
-                                    {...register('password')}
-                                    variant="outlined"
-                                    margin="normal"
-                                    required
-                                    fullWidth
-                                    id="password"
-                                    label="Senha"
-                                    name="password"
-                                    autoComplete="email"
-                                    type={showPassword ? "text" : "password"}
-                                    InputProps={{
-                                      endAdornment: (
-                                        <InputAdornment position="end">
-                                          <IconButton
-                                            aria-label="toggle password visibility"
-                                            onClick={handleClickShowPassword}
-                                            onMouseDown={handleMouseDownPassword}
-                                          >
-                                            {showPassword ? (
-                                              <Visibility />
-                                            ) : (
-                                              <VisibilityOff />
-                                            )}
-                                          </IconButton>
-                                        </InputAdornment>
-                                      ),
-                                    }}
-                                  />
-                                </Grid>
-                                
-                              </Grid>
-                            
+                          <Grid item sm={12}>
+                            <Typography className={styles.realizeSeuCadastro} variant="h6">Realize o seu cadastro!</Typography>
                           </Grid>
                           <Grid item sm={8} style={{padding: '20px'}}>
                             <div id="container" style={{position: 'relative'}}>
@@ -144,7 +105,58 @@ export default function Dashboard() {
                                 />
                               </div>
                             </div>
- 
+                          </Grid>
+
+                          <Grid item sm={4}>
+                            <Grid container spacing={3}>
+                              <Grid item sm={12}>
+                                <Typography className={styles.preenchaSeusDados} variant="h6">Preencha seus dados nos campos abaixo:</Typography>
+                              </Grid>
+                              <Grid item sm={12}>
+                                <TextField {...register('name')} variant="outlined" margin="normal"
+                                  required fullWidth id="name" label="Nome" name="name" autoFocus />
+                              </Grid>
+                              <Grid item sm={12}>
+                                <TextField {...register('email')} variant="outlined" margin="normal" required
+                                  fullWidth id="email" label="Email" name="email" autoComplete="email" />
+                              </Grid>
+                              <Grid item sm={12}>
+                                <TextField {...register('password')} variant="outlined" margin="normal" required
+                                  fullWidth id="password" label="Senha" name="password" autoComplete="email"
+                                  type={showPassword ? "text" : "password"}
+                                  InputProps={{
+                                    endAdornment: (
+                                      <InputAdornment position="end">
+                                        <IconButton aria-label="toggle password visibility" onClick={handleClickShowPassword}
+                                          onMouseDown={handleMouseDownPassword} >
+                                          {showPassword ? ( <Visibility /> ) 
+                                          :
+                                          ( <VisibilityOff /> )}
+                                        </IconButton>
+                                      </InputAdornment>
+                                    ),
+                                  }}
+                                />
+                              </Grid>
+                              <Grid item sm={12}>
+                                <TextField {...register('confirmPassword')} variant="outlined" margin="normal" required
+                                  fullWidth id="password" label="Confirme a senha senha" name="password" autoComplete="email"
+                                  type={showPassword ? "text" : "password"}
+                                  InputProps={{
+                                    endAdornment: (
+                                      <InputAdornment position="end">
+                                        <IconButton aria-label="toggle password visibility" onClick={handleClickShowPassword}
+                                          onMouseDown={handleMouseDownPassword} >
+                                          {showPassword ? ( <Visibility /> ) 
+                                          :
+                                          ( <VisibilityOff /> )}
+                                        </IconButton>
+                                      </InputAdornment>
+                                    ),
+                                  }}
+                                />
+                              </Grid>
+                            </Grid>
                           </Grid>
                         </Grid>
                       </Grid>
@@ -153,29 +165,14 @@ export default function Dashboard() {
                       </Grid>
                       <Grid item sm={12}>
                         <Grid item sm={12}>
-                          <Grid
-                            container
-                            spacing={3}
-                            justifyContent="flex-end"
-                            alignItems="flex-end"
-                          >
+                          <Grid container spacing={3} justifyContent="flex-end" alignItems="flex-end">
                             <Grid item sm={2}>
-                              <Button
-                                fullWidth
-                                variant="contained"
-                                color="secondary"
-                                onClick={() => Router.push('/auth/login')}
-                              >
+                              <Button fullWidth variant="contained" color="secondary" onClick={() => Router.push('/auth/login')} >
                                 Voltar
                               </Button>
                             </Grid>
                             <Grid item sm={2}>
-                              <Button
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                color="primary"
-                              >
+                              <Button type="submit" fullWidth variant="contained" color="primary" >
                                 Confirmar
                               </Button>
                             </Grid>
