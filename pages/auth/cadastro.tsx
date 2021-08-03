@@ -14,6 +14,8 @@ import background from "public/lottie/background.json";
 import { useForm } from 'react-hook-form';
 import { useSnackbar } from 'notistack';
 import { api } from 'services/api' 
+import Router from 'next/router'
+
 // layout for page
 import User from "layouts/User";
 import { sha512 } from 'js-sha512'
@@ -36,12 +38,13 @@ export default function Dashboard() {
       console.log(data)
       const dados = { ...data, password: sha512(data.password)}
       await api.post('/users',dados)
+      enqueueSnackbar('Cadastro realizado com sucesso.',{variant: 'success',});
+      Router.push('/auth/login');
     } catch (error) {
       console.log(error)
       enqueueSnackbar('Problema ao salvar',{variant: 'error',});
     }
   }
-
 
   return (
     <User title="Cadastro">
@@ -161,6 +164,7 @@ export default function Dashboard() {
                                 fullWidth
                                 variant="contained"
                                 color="secondary"
+                                onClick={() => Router.push('/auth/login')}
                               >
                                 Voltar
                               </Button>
