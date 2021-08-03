@@ -23,7 +23,7 @@ export default function FooterAdmin() {
                 <li>
                   <a
                     href="https://www.creative-tim.com?ref=nnjs-footer-admin"
-                    className="text-blueGray-600 hover:text-blueGray-800 text-sm font-semibold block py-1 px-3"
+                    className="text-blueGray-600 hover:text-blueGray-800 text-sm font-semibold block py-1 px-3 "
                   >
                     Creative Tim
                   </a>
