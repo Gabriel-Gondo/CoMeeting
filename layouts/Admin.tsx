@@ -10,6 +10,7 @@ import FooterAdmin from "components/Footers/FooterAdmin.js";
 import { useEffect } from "react";
 import { AuthContext } from "contexts/AuthContext";
 
+
 export default function Admin({ title,children }) {
 
   return (
