@@ -10,7 +10,7 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import Lottie from "react-lottie";
-import background from "public/lottie/background.json";
+import background from "public/lottie/businessteam.json";
 import { useForm } from 'react-hook-form';
 import { useSnackbar } from 'notistack';
 import { api } from 'services/api' 
@@ -43,20 +43,31 @@ export default function Dashboard() {
   const { register, handleSubmit } = useForm();
   const { enqueueSnackbar } = useSnackbar();
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setConfirmPassword] = useState(false);
 
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
+  const handleClickShowPassword = (field) => {
+    field === 'password' ? setShowPassword(!showPassword) : setConfirmPassword(!showConfirmPassword);
   };
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
 
-  async function validaSenha(data){
-    if(data.password === data.confirmPassword){
-      save(data);
-    } else {
-      enqueueSnackbar('As senhas não coincidem!',{variant: 'error',});
+  function validaCamposCadastro(data){
+    console.log(data);
+
+    if(data.name === '' && (data.email === undefined || data.email === '')){
+      enqueueSnackbar('Preencha todos os campos!',{variant: 'error',});
+    }else{
+      if(data.password.length > 0 && data.confirmPassword.length > 0){
+        if(data.password === data.confirmPassword){
+          save(data);
+        } else {
+          enqueueSnackbar('As senhas não coincidem!',{variant: 'error',});
+        }
+      }else{
+        enqueueSnackbar('Preencha os campos de senha!',{variant: 'error',});
+      }
     }
   }
   async function save(data) {
@@ -74,7 +85,7 @@ export default function Dashboard() {
 
   return (
     <User title="Cadastro">
-      <form  noValidate onSubmit={handleSubmit(validaSenha)}>
+      <form id="formCadastroUsuario" noValidate onSubmit={handleSubmit(validaCamposCadastro)}>
       <div className="flex flex-wrap">
         <div className="w-full  px-4">
           <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg mt-16">
@@ -113,8 +124,8 @@ export default function Dashboard() {
                                 <Typography className={styles.preenchaSeusDados} variant="h6">Preencha seus dados nos campos abaixo:</Typography>
                               </Grid>
                               <Grid item sm={12}>
-                                <TextField {...register('name')} variant="outlined" margin="normal"
-                                  required fullWidth id="name" label="Nome" name="name" autoFocus />
+                                <TextField {...register('name')} variant="outlined" margin="normal" required
+                                  fullWidth id="name" label="Nome" name="name" autoFocus/>
                               </Grid>
                               <Grid item sm={12}>
                                 <TextField {...register('email')} variant="outlined" margin="normal" required
@@ -127,7 +138,7 @@ export default function Dashboard() {
                                   InputProps={{
                                     endAdornment: (
                                       <InputAdornment position="end">
-                                        <IconButton aria-label="toggle password visibility" onClick={handleClickShowPassword}
+                                        <IconButton aria-label="toggle password visibility" onClick={() => {handleClickShowPassword('password')}}
                                           onMouseDown={handleMouseDownPassword} >
                                           {showPassword ? ( <Visibility /> ) 
                                           :
@@ -140,14 +151,14 @@ export default function Dashboard() {
                               </Grid>
                               <Grid item sm={12}>
                                 <TextField {...register('confirmPassword')} variant="outlined" margin="normal" required
-                                  fullWidth id="password" label="Confirme a senha senha" name="password" autoComplete="email"
-                                  type={showPassword ? "text" : "password"}
+                                  fullWidth id="confirmPassword" label="Confirme a senha senha" name="confirmPassword" autoComplete="email"
+                                  type={showConfirmPassword ? "text" : "password"}
                                   InputProps={{
                                     endAdornment: (
                                       <InputAdornment position="end">
-                                        <IconButton aria-label="toggle password visibility" onClick={handleClickShowPassword}
+                                        <IconButton aria-label="toggle password visibility" onClick={() => {handleClickShowPassword('confirmPassword')}}
                                           onMouseDown={handleMouseDownPassword} >
-                                          {showPassword ? ( <Visibility /> ) 
+                                          {showConfirmPassword ? ( <Visibility /> ) 
                                           :
                                           ( <VisibilityOff /> )}
                                         </IconButton>
