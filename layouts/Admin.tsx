@@ -20,7 +20,7 @@ export default function Admin({ title,children }) {
         <AdminNavbar title={title}/>
         {/* Header */}
         <HeaderStats />
-        <div className="px-4 md:px-10 mx-auto w-full -m-24">
+        <div className="px-4 md:px-10 mx-auto w-full" style={{marginTop: '-10rem'}}>
           {children}
           <FooterAdmin />
         </div>

@@ -41,7 +41,7 @@ export default function Admin({ title, children }) {
             </div>
             </div>
         </div>
-        <div className="px-4 md:px-10 mx-auto w-full" style={{marginTop: '-10rem'}}>
+        <div className="px-4 md:px-10 mx-auto w-full" style={{marginTop: '-14rem'}}>
           {children}
           <FooterAdmin />
         </div>

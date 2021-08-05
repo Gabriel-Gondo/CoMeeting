@@ -31,9 +31,9 @@ const useStyles = makeStyles((theme) => ({
     letterSpacing: '0.05em',
   },
   preenchaSeusDados: {
-    fontWeight: 900,
-    fontSize: '14px',
-    textTransform: 'uppercase'
+    fontWeight: 600,
+    letterSpacing: '3px',
+    color: '#666666'
   }
 
 }));
@@ -84,7 +84,7 @@ export default function Dashboard() {
   }
 
   return (
-    <User title="Cadastro">
+    <User>
       <form id="formCadastroUsuario" noValidate onSubmit={handleSubmit(validaCamposCadastro)}>
       <div className="flex flex-wrap">
         <div className="w-full  px-4">
@@ -96,9 +96,9 @@ export default function Dashboard() {
                     <Grid container spacing={3}>
                       <Grid item sm={12}>
                         <Grid container>
-                          <Grid item sm={12}>
+                          {/* <Grid item sm={12}>
                             <Typography className={styles.realizeSeuCadastro} variant="h6">Realize o seu cadastro!</Typography>
-                          </Grid>
+                          </Grid> */}
                           <Grid item sm={8} style={{padding: '20px'}}>
                             <div id="container" style={{position: 'relative'}}>
                               <div style={{ width: '100%',height:' 100%',zIndex: 10}}>
@@ -121,7 +121,7 @@ export default function Dashboard() {
                           <Grid item sm={4}>
                             <Grid container spacing={3}>
                               <Grid item sm={12}>
-                                <Typography className={styles.preenchaSeusDados} variant="h6">Preencha seus dados nos campos abaixo:</Typography>
+                                <Typography className={styles.preenchaSeusDados} variant="h6">Cadastre-se</Typography>
                               </Grid>
                               <Grid item sm={12}>
                                 <TextField {...register('name')} variant="outlined" margin="normal" required
@@ -178,12 +178,12 @@ export default function Dashboard() {
                         <Grid item sm={12}>
                           <Grid container spacing={3} justifyContent="flex-end" alignItems="flex-end">
                             <Grid item sm={2}>
-                              <Button fullWidth variant="contained" color="secondary" onClick={() => Router.push('/auth/login')} >
+                              <Button fullWidth variant="contained" color="secondary" onClick={() => Router.push('/auth/login')} style={{fontWeight: 600,color: '#555',letterSpacing: '3px',height: '40px',fontSize: '12px', padding: '4px'}}>
                                 Voltar
                               </Button>
                             </Grid>
                             <Grid item sm={2}>
-                              <Button type="submit" fullWidth variant="contained" color="primary" >
+                              <Button type="submit" fullWidth variant="contained"  color="primary" style={{fontWeight: 600,color: '#fff',letterSpacing: '3px',fontSize: '12px', padding: '4px',height: '40px'}} >
                                 Confirmar
                               </Button>
                             </Grid>
