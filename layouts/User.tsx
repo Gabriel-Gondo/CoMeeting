@@ -15,7 +15,7 @@ import { AuthContext } from "contexts/AuthContext";
 export default function Admin({ title, children }) {
   return (
     <>
-      <div className="relative ">
+      <div className="relative">
         <>
           {/* Navbar */}
           <nav className="absolute top-0 left-0 w-full z-10 bg-transparent md:flex-row md:flex-nowrap md:justify-start flex items-center p-4">
@@ -33,7 +33,7 @@ export default function Admin({ title, children }) {
           {/* End Navbar */}
         </>
         {/* Header */}
-        <div className="relative md:pt-32 pb-32 pt-12" style={{backgroundColor: colors.primary}}>
+        <div className="md:pt-32 pb-32 pt-12" style={{backgroundColor: colors.primary}}>
             <div className="px-4 md:px-10 mx-auto w-full">
             <div>
                 

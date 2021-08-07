@@ -17,9 +17,11 @@ import { api } from 'services/api'
 import Router from 'next/router'
 import { makeStyles } from '@material-ui/core/styles';
 
+import {Division, Container, LeftSide, RightSide, Hr, DownSide, ButtonGroup, Gap} from './styles-cadastro';
+
 // layout for page
 import User from "layouts/User";
-import { sha512 } from 'js-sha512'
+//import { sha512 } from 'js-sha512';
 
 const useStyles = makeStyles((theme) => ({
   realizeSeuCadastro: {
@@ -70,10 +72,12 @@ export default function Dashboard() {
       }
     }
   }
+  
   async function save(data) {
     try {
       console.log(data)
-      const dados = { ...data, password: sha512(data.password)}
+      //const dados = { ...data, password: sha512(data.password)}
+      const dados = { ...data, password: data.password}
       await api.post('/users',dados)
       enqueueSnackbar('Cadastro realizado com sucesso.',{variant: 'success',});
       Router.push('/auth/login');
@@ -86,118 +90,86 @@ export default function Dashboard() {
   return (
     <User>
       <form id="formCadastroUsuario" noValidate onSubmit={handleSubmit(validaCamposCadastro)}>
-      <div className="flex flex-wrap">
-        <div className="w-full  px-4">
-          <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg mt-16">
-            <div className="px-6">
-              <div className="flex flex-wrap justify-center">
-                <div className="w-full px-4  mt-10">
-                  <div className="flex  py-4 lg:pt-4 pt-8">
-                    <Grid container spacing={3}>
-                      <Grid item sm={12}>
-                        <Grid container>
-                          {/* <Grid item sm={12}>
-                            <Typography className={styles.realizeSeuCadastro} variant="h6">Realize o seu cadastro!</Typography>
-                          </Grid> */}
-                          <Grid item sm={8} style={{padding: '20px'}}>
-                            <div id="container" style={{position: 'relative'}}>
-                              <div style={{ width: '100%',height:' 100%',zIndex: 10}}>
-                                <Lottie
-                                  options={{
-                                    loop: true,
-                                    autoplay: true,
-                                    animationData: background,
-                                    rendererSettings: {
-                                      preserveAspectRatio: "xMidYMid slice",
-                                    },
-                                  }}
-                                  height={500}
-                                  width={850}
-                                />
-                              </div>
-                            </div>
-                          </Grid>
+        <Division>
+          <Container >
+            <LeftSide >
+              <Lottie
+                options={{
+                  loop: true,
+                  autoplay: true,
+                  animationData: background,
+                  rendererSettings: {
+                    preserveAspectRatio: "xMidYMid slice",
+                  },
+                }}
+              />
+            </LeftSide>
 
-                          <Grid item sm={4}>
-                            <Grid container spacing={3}>
-                              <Grid item sm={12}>
-                                <Typography className={styles.preenchaSeusDados} variant="h6">Cadastre-se</Typography>
-                              </Grid>
-                              <Grid item sm={12}>
-                                <TextField {...register('name')} variant="outlined" margin="normal" required
-                                  fullWidth id="name" label="Nome" name="name" autoFocus/>
-                              </Grid>
-                              <Grid item sm={12}>
-                                <TextField {...register('email')} variant="outlined" margin="normal" required
-                                  fullWidth id="email" label="Email" name="email" autoComplete="email" />
-                              </Grid>
-                              <Grid item sm={12}>
-                                <TextField {...register('password')} variant="outlined" margin="normal" required
-                                  fullWidth id="password" label="Senha" name="password" autoComplete="email"
-                                  type={showPassword ? "text" : "password"}
-                                  InputProps={{
-                                    endAdornment: (
-                                      <InputAdornment position="end">
-                                        <IconButton aria-label="toggle password visibility" onClick={() => {handleClickShowPassword('password')}}
-                                          onMouseDown={handleMouseDownPassword} >
-                                          {showPassword ? ( <Visibility /> ) 
-                                          :
-                                          ( <VisibilityOff /> )}
-                                        </IconButton>
-                                      </InputAdornment>
-                                    ),
-                                  }}
-                                />
-                              </Grid>
-                              <Grid item sm={12}>
-                                <TextField {...register('confirmPassword')} variant="outlined" margin="normal" required
-                                  fullWidth id="confirmPassword" label="Confirme a senha senha" name="confirmPassword" autoComplete="email"
-                                  type={showConfirmPassword ? "text" : "password"}
-                                  InputProps={{
-                                    endAdornment: (
-                                      <InputAdornment position="end">
-                                        <IconButton aria-label="toggle password visibility" onClick={() => {handleClickShowPassword('confirmPassword')}}
-                                          onMouseDown={handleMouseDownPassword} >
-                                          {showConfirmPassword ? ( <Visibility /> ) 
-                                          :
-                                          ( <VisibilityOff /> )}
-                                        </IconButton>
-                                      </InputAdornment>
-                                    ),
-                                  }}
-                                />
-                              </Grid>
-                            </Grid>
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                      <Grid item sm={12}>
-                        <Divider />
-                      </Grid>
-                      <Grid item sm={12}>
-                        <Grid item sm={12}>
-                          <Grid container spacing={3} justifyContent="flex-end" alignItems="flex-end">
-                            <Grid item sm={2}>
-                              <Button fullWidth variant="contained" color="secondary" onClick={() => Router.push('/auth/login')} style={{fontWeight: 600,color: '#555',letterSpacing: '3px',height: '40px',fontSize: '12px', padding: '4px'}}>
-                                Voltar
-                              </Button>
-                            </Grid>
-                            <Grid item sm={2}>
-                              <Button type="submit" fullWidth variant="contained"  color="primary" style={{fontWeight: 600,color: '#fff',letterSpacing: '3px',fontSize: '12px', padding: '4px',height: '40px'}} >
-                                Confirmar
-                              </Button>
-                            </Grid>
-                          </Grid>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+            <RightSide>
+              <Grid container spacing={3}>
+                <Grid item sm={12}>
+                  <Typography className={styles.preenchaSeusDados} variant="h6">Cadastre-se</Typography>
+                </Grid>
+                <Grid item sm={12}>
+                  <TextField {...register('name')} variant="outlined" margin="normal" required
+                    fullWidth id="name" label="Nome" name="name" autoFocus/>
+                </Grid>
+                <Grid item sm={12}>
+                  <TextField {...register('email')} variant="outlined" margin="normal" required
+                    fullWidth id="email" label="Email" name="email" autoComplete="email" />
+                </Grid>
+                <Grid item sm={12}>
+                  <TextField {...register('password')} variant="outlined" margin="normal" required
+                    fullWidth id="password" label="Senha" name="password" autoComplete="email"
+                    type={showPassword ? "text" : "password"}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton aria-label="toggle password visibility" onClick={() => {handleClickShowPassword('password')}}
+                            onMouseDown={handleMouseDownPassword} >
+                            {showPassword ? ( <Visibility /> ) 
+                            :
+                            ( <VisibilityOff /> )}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                </Grid>
+                <Grid item sm={12}>
+                  <TextField {...register('confirmPassword')} variant="outlined" margin="normal" required
+                    fullWidth id="confirmPassword" label="Confirme a senha senha" name="confirmPassword" autoComplete="email"
+                    type={showConfirmPassword ? "text" : "password"}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton aria-label="toggle password visibility" onClick={() => {handleClickShowPassword('confirmPassword')}}
+                            onMouseDown={handleMouseDownPassword} >
+                            {showConfirmPassword ? ( <Visibility /> ) 
+                            :
+                            ( <VisibilityOff /> )}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                </Grid>
+              </Grid>
+            </RightSide>
+            <Hr />
+            <DownSide>
+              <ButtonGroup>
+                <Button fullWidth variant="contained" color="secondary" onClick={() => Router.push('/auth/login')} style={{fontWeight: 600,color: '#555',letterSpacing: '3px',height: '40px',fontSize: '12px', padding: '4px'}}>
+                  Voltar
+                </Button>
+                <Gap />
+                <Button type="submit" fullWidth variant="contained"  color="primary" style={{fontWeight: 600,color: '#fff',letterSpacing: '3px',fontSize: '12px', padding: '4px',height: '40px'}} >
+                  Confirmar
+                </Button>
+              </ButtonGroup>
+            </DownSide>
+          </Container>
+        </Division>
       </form>
     </User>
   );
