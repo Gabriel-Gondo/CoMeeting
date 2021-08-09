@@ -33,7 +33,6 @@ export const LeftSide = styled.div`
     margin: 10px 0;
 
     border-radius: 7px;
-    /* border: 1px solid red; */
 `;
 
 export const RightSide = styled.div`
@@ -42,7 +41,6 @@ export const RightSide = styled.div`
     margin: 10px 0;
 
     border-radius: 7px;
-    /* border: 1px solid yellow; */
 
 `;
 
@@ -66,8 +64,6 @@ export const DownSide = styled.div`
     height: auto;
 
     align-items: flex-end;
-    
-    /* border: 1px solid blue; */
 `;
 
 export const Gap = styled.div`
@@ -76,10 +72,8 @@ export const Gap = styled.div`
 `;
 
 export const ButtonGroup = styled.div`
-    width: 600px;
+    width: 400px;
     height: auto;
     display: flex;
     float: right;
-    
-    /* border: 1px solid blue; */
 `;
